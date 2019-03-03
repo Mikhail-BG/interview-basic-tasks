@@ -22,12 +22,12 @@ public class CycleLinkedList
             this.data = data;
         }
 
-        public CycleNode next()
+        private CycleNode next()
         {
             return next;
         }
 
-        public void setNext(CycleNode next)
+        private void setNext(CycleNode next)
         {
             this.next = next;
         }
