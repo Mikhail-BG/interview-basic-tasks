@@ -1,64 +1,47 @@
 package basics.interview.task.linkedlist.removeduplicates;
 
-public class LinkedListDuplicates<T>
-{
+public class LinkedListDuplicates<T> {
     private Node<T> head;
 
-    public void append(T data)
-    {
-        if (head == null)
-        {
+    public void append(T data) {
+        if (head == null) {
             head = new Node<>(data);
             return;
         }
         tail().next = new Node<>(data);
     }
 
-    private Node tail()
-    {
+    private Node tail() {
         Node tail = head;
 
-        while (tail.next != null)
-        {
+        while (tail.next != null) {
             tail = tail.next;
         }
         return tail;
     }
 
     @SuppressWarnings("unchecked")
-    public void removeDuplicates()
-    {
-        Node currentOuter = head;
-        Node currentInner = null;
+    public void removeDuplicates() {
+        Node current = head;
 
-        while (currentOuter != null)
-        {
-            currentInner = currentOuter;
-            while (currentInner != null)
-            {
-                if (currentOuter.data.equals(currentInner.data))
-                {
-                    remove((T) currentOuter.data);
-                    currentOuter = head;
-                    break;
+        while (current != null) {
+            Node runner = current;
+            while (runner.next != null) {
+                if (runner.next.data == current.data) {
+                    runner.next = runner.next.next; // Remove duplicate
+                } else {
+                    runner = runner.next;
                 }
-                currentInner = currentInner.next;
             }
-            if (currentOuter != null)
-            {
-                currentOuter = currentOuter.next;
-            }
-
+            current = current.next;
         }
     }
 
-    public int size()
-    {
+    public int size() {
         Node current = head;
         int size = 0;
 
-        while (current.next != null)
-        {
+        while (current.next != null) {
             size++;
             current = current.next;
         }
@@ -66,20 +49,16 @@ public class LinkedListDuplicates<T>
         return size;
     }
 
-    public void remove(T data)
-    {
+    public void remove(T data) {
         Node current = head;
         Node previous = head;
 
         //remove first node
-        if (current.data.equals(data))
-        {
-            if (current.next != null)
-            {
+        if (current.data.equals(data)) {
+            if (current.next != null) {
                 current.data = current.next.data;
                 current.next = current.next.next;
-            } else
-            {
+            } else {
                 current.data = null;
                 current.next = null;
                 return;
@@ -87,62 +66,51 @@ public class LinkedListDuplicates<T>
         }
 
         //remove middle nodes
-        while (current.next != null)
-        {
-            if (current.data.equals(data))
-            {
+        while (current.next != null) {
+            if (current.data.equals(data)) {
                 current.data = current.next.data;
                 current.next = current.next.next;
-            } else
-            {
+            } else {
                 previous = current;
                 current = current.next;
             }
         }
 
         //remove last node
-        if (current.data != null && current.data.equals(data))
-        {
+        if (current.data != null && current.data.equals(data)) {
             previous.next = null;
-            if (previous.equals(head))
-            {
+            if (previous.equals(head)) {
                 head = null;
             }
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         Node current = head;
-        while (current != null)
-        {
+        while (current != null) {
             sb.append(current).append("-->");
             current = current.next;
         }
 
-        if (sb.length() >= 3)
-        {
+        if (sb.length() >= 3) {
             sb.delete(sb.length() - 3, sb.length());
         }
         return sb.toString();
     }
 
 
-    private static class Node<T>
-    {
+    private static class Node<T> {
         private T data;
         private Node next;
 
-        public Node(T data)
-        {
+        public Node(T data) {
             this.data = data;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return data.toString();
         }
     }
